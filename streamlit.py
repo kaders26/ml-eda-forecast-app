@@ -1,14 +1,10 @@
 import streamlit as st
 import pickle
-import numpy as np
 import matplotlib.pyplot as plt
 import plotly.express as px
 import numpy as np
 import plotly.graph_objects as go
-import streamlit as st
-import plotly.graph_objects as go
 import shap
-import matplotlib.pyplot as plt
 
 # Modeli yükle
 with open("xgboost_model.pkl", "rb") as f:
