@@ -2,6 +2,13 @@ import streamlit as st
 import pickle
 import numpy as np
 import matplotlib.pyplot as plt
+import plotly.express as px
+import numpy as np
+import plotly.graph_objects as go
+import streamlit as st
+import plotly.graph_objects as go
+import shap
+import matplotlib.pyplot as plt
 
 # Modeli yükle
 with open("xgboost_model.pkl", "rb") as f:
@@ -30,8 +37,6 @@ sales_diff = st.sidebar.number_input("Satış Farkı", value=1.0)
 input_data = np.array([[store, item, year, month, dayofweek, is_weekend,
                         lag_7, lag_30, rolling_std_7, sales_diff]])
 
-import plotly.graph_objects as go
-import streamlit as st
 
 # Tahmini değer (örnek olarak modelin çıktısı burada)
 prediction = model.predict(input_data)[0]
@@ -100,14 +105,12 @@ for i, name in enumerate(feature_names):
     pred_deltas.append(delta)
 
 # 🎨 Grafikle Göster
-import matplotlib.pyplot as plt
 fig, ax = plt.subplots()
 bars = ax.barh(variations, pred_deltas, color='skyblue')
 ax.set_xlabel("Tahmindeki Değişim")
 ax.set_title("Özelliklerin Etkisi (+1 değişim)")
 st.pyplot(fig)
 
-import plotly.graph_objects as go
 
 st.subheader("📈 Son 30 Günlük Satış Trendi (Simülasyon)")
 
@@ -129,8 +132,6 @@ fig.update_layout(
 
 st.plotly_chart(fig, use_container_width=True)
 
-import shap
-import matplotlib.pyplot as plt
 
 explainer = shap.TreeExplainer(model)
 shap_values = explainer.shap_values(input_data)
@@ -153,10 +154,6 @@ shap.plots.waterfall(shap.Explanation(values=shap_values[0],
                                       feature_names=feature_names))
 
 st.pyplot(fig)
-
-
-import plotly.express as px
-import numpy as np
 
 lower = prediction - 5
 upper = prediction + 5
